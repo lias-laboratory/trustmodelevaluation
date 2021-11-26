@@ -3,20 +3,13 @@ package fr.ensma.lias.trustevaluation.engine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import fr.ensma.lias.trustevaluation.engine.NegativeExecutedTask;
-import fr.ensma.lias.trustevaluation.engine.PositiveExecutedTask;
-import fr.ensma.lias.trustevaluation.engine.Scenario;
-import fr.ensma.lias.trustevaluation.engine.UserRequirementsEngine;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
 import fr.ensma.lias.trustevaluation.model.Equal;
-import fr.ensma.lias.trustevaluation.model.ExactValue;
-import fr.ensma.lias.trustevaluation.model.GlobalScoreConstraint;
 import fr.ensma.lias.trustevaluation.model.IterativeScoreConstraint;
 import fr.ensma.lias.trustevaluation.model.NegativeTask;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
 import fr.ensma.lias.trustevaluation.model.Requirement;
-import fr.ensma.lias.trustevaluation.model.ScoreConstraint;
 import fr.ensma.lias.trustevaluation.model.ScoreElement;
 import fr.ensma.lias.trustevaluation.model.ScoreValue;
 import fr.ensma.lias.trustevaluation.model.Task;
@@ -40,9 +33,7 @@ public class UserRequirementEngineTest {
 		ScoreElement scoreElement = new ScoreElement(0, 150);
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
-		Requirement current = new Requirement(abstractTask);
-		ScoreConstraint finalCondition = new GlobalScoreConstraint(scoreElement, new Equal(), new ExactValue(0));
-		current.setGlobalScoreConstraint(finalCondition);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 
 		Task positiveTask = new PositiveTask("Positive Task");
 		positiveTask.setIteration(15);
@@ -70,9 +61,7 @@ public class UserRequirementEngineTest {
 		abstractTask.setDecomposition(Decomposition.SEQ);
 		abstractTask.setIteration(3);
 
-		Requirement current = new Requirement(abstractTask);
-		ScoreConstraint finalCondition = new GlobalScoreConstraint(scoreElement, new Equal(), new ExactValue(0));
-		current.setGlobalScoreConstraint(finalCondition);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 
 		Task positiveTask = new PositiveTask("Positive Task");
 		positiveTask.setIteration(15);
@@ -98,9 +87,7 @@ public class UserRequirementEngineTest {
 		ScoreElement scoreElement = new ScoreElement(0, 150);
 		Task abstractTask = new PositiveTask("Positive Task");
 		abstractTask.setDecomposition(Decomposition.LEAF);
-		Requirement current = new Requirement(abstractTask);
-		ScoreConstraint finalCondition = new GlobalScoreConstraint(scoreElement, new Equal(), new ExactValue(0));
-		current.setGlobalScoreConstraint(finalCondition);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 
 		// When
 		UserRequirementsEngine engine = new UserRequirementsEngine();
@@ -119,7 +106,7 @@ public class UserRequirementEngineTest {
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
 		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new Equal(), new ScoreValue(8));
@@ -139,12 +126,12 @@ public class UserRequirementEngineTest {
 
 		// Then
 		Assert.assertEquals(3, eval.getLength());
-		Assert.assertTrue(eval.getExecutedTask(0) instanceof PositiveExecutedTask);
-		Assert.assertEquals(8, eval.getExecutedTask(0).getConstraint().getConstraintValue().getValue());
-		Assert.assertTrue(eval.getExecutedTask(1) instanceof NegativeExecutedTask);
-		Assert.assertTrue(eval.getExecutedTask(1).getConstraint() == null);
-		Assert.assertTrue(eval.getExecutedTask(2) instanceof NegativeExecutedTask);
-		Assert.assertEquals(2, eval.getExecutedTask(2).getConstraint().getConstraintValue().getValue());
+		Assert.assertTrue(eval.getSimulatedTask(0).isPositive());
+		Assert.assertEquals(8, eval.getSimulatedTask(0).getConstraint().getConstraintValue().getValue());
+		Assert.assertFalse(eval.getSimulatedTask(1).isPositive());
+		Assert.assertTrue(eval.getSimulatedTask(1).getConstraint() == null);
+		Assert.assertFalse(eval.getSimulatedTask(2).isPositive());
+		Assert.assertEquals(2, eval.getSimulatedTask(2).getConstraint().getConstraintValue().getValue());
 	}
 	
 	@Test
@@ -156,7 +143,7 @@ public class UserRequirementEngineTest {
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
 		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new Equal(), new ScoreValue(8));
@@ -181,9 +168,9 @@ public class UserRequirementEngineTest {
 
 		// Then
 		Assert.assertEquals(9, eval.getLength());
-		Assert.assertEquals(8, eval.getExecutedTask(0).getConstraint().getConstraintValue().getValue());
-		Assert.assertEquals(8, eval.getExecutedTask(1).getConstraint().getConstraintValue().getValue());
-		Assert.assertEquals(8, eval.getExecutedTask(2).getConstraint().getConstraintValue().getValue());
+		Assert.assertEquals(8, eval.getSimulatedTask(0).getConstraint().getConstraintValue().getValue());
+		Assert.assertEquals(8, eval.getSimulatedTask(1).getConstraint().getConstraintValue().getValue());
+		Assert.assertEquals(8, eval.getSimulatedTask(2).getConstraint().getConstraintValue().getValue());
 	}
 	
 	@Test
@@ -195,7 +182,7 @@ public class UserRequirementEngineTest {
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
 		TaskScoreConstraint positiveTaskConstraint = new IterativeScoreConstraint(scoreElement, new Equal(), new ScoreValue(8));
@@ -218,14 +205,14 @@ public class UserRequirementEngineTest {
 
 		// Then
 		Assert.assertEquals(9, eval.getLength());
-		Assert.assertTrue(eval.getExecutedTask(0).getConstraint() == null);
-		Assert.assertTrue(eval.getExecutedTask(1).getConstraint() == null);
-		Assert.assertEquals(8, eval.getExecutedTask(2).getConstraint().getConstraintValue().getValue());
-		Assert.assertTrue(eval.getExecutedTask(3).getConstraint() == null);
-		Assert.assertTrue(eval.getExecutedTask(4).getConstraint() == null);
-		Assert.assertTrue(eval.getExecutedTask(5).getConstraint() == null);
-		Assert.assertTrue(eval.getExecutedTask(6).getConstraint() == null);
-		Assert.assertTrue(eval.getExecutedTask(7).getConstraint() == null);
-		Assert.assertEquals(2, eval.getExecutedTask(8).getConstraint().getConstraintValue().getValue());
+		Assert.assertTrue(eval.getSimulatedTask(0).getConstraint() == null);
+		Assert.assertTrue(eval.getSimulatedTask(1).getConstraint() == null);
+		Assert.assertEquals(8, eval.getSimulatedTask(2).getConstraint().getConstraintValue().getValue());
+		Assert.assertTrue(eval.getSimulatedTask(3).getConstraint() == null);
+		Assert.assertTrue(eval.getSimulatedTask(4).getConstraint() == null);
+		Assert.assertTrue(eval.getSimulatedTask(5).getConstraint() == null);
+		Assert.assertTrue(eval.getSimulatedTask(6).getConstraint() == null);
+		Assert.assertTrue(eval.getSimulatedTask(7).getConstraint() == null);
+		Assert.assertEquals(2, eval.getSimulatedTask(8).getConstraint().getConstraintValue().getValue());
 	}
 }

@@ -19,11 +19,11 @@ public abstract class Task {
 	private Task parent;
 
 	protected Decomposition decomposition;
-		
+
 	protected Cause cause;
-	
+
 	protected TaskScoreConstraint constraint;
-	
+
 	public Task(String pName) {
 		this.name = pName;
 		this.isComposedOf = new ArrayList<>();
@@ -65,15 +65,15 @@ public abstract class Task {
 	public List<Task> getSubTasks() {
 		return this.isComposedOf;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public Task getParent() {
 		return this.parent;
 	}
-	
+
 	public Cause getCause() {
 		return this.cause;
 	}

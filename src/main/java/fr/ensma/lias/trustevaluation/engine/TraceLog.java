@@ -8,12 +8,12 @@ import fr.ensma.lias.trustevaluation.model.IValueInt;
 public class TraceLog {
 
 	private String application;
-	
+
 	private IValueInt value;
-	
+
 	public TraceLog(String pApplication, final int pValue) {
 		this.application = pApplication;
-		
+
 		value = new IValueInt() {
 			@Override
 			public int getValue() {

@@ -6,9 +6,9 @@ package fr.ensma.lias.trustevaluation.model;
 public class ScoreElement extends ConstraintElement {
 
 	private int max = 100;
-	
+
 	private int min = -100;
-	
+
 	public ScoreElement(int pMin, int pMax) {
 		this.max = pMax;
 		this.min = pMin;

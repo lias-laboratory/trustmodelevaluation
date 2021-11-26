@@ -33,19 +33,21 @@ public class ApplicationRequirementsEngine {
 			throw new NotYetImplementedException("Application identifier not found.");
 		}
 
-		boolean resultPositiveAction = checkAction(application.getPositiveAction().getConstraint(), currentLog.getValue());
-		boolean resultNegativeAction = checkAction(application.getNegativeAction().getConstraint(), currentLog.getValue());
-		
+		boolean resultPositiveAction = checkAction(application.getPositiveAction().getConstraint(),
+				currentLog.getValue());
+		boolean resultNegativeAction = checkAction(application.getNegativeAction().getConstraint(),
+				currentLog.getValue());
+
 		if (!resultPositiveAction && !resultNegativeAction) {
 			NeutralAction neutralAction = new NeutralAction();
 			neutralAction.setApplication(application);
 			return neutralAction;
 		}
-		
+
 		if (resultPositiveAction && resultNegativeAction) {
 			throw new NotYetImplementedException("Ambigous evaluation on action onstraints.");
 		}
-		
+
 		if (resultPositiveAction) {
 			return application.getPositiveAction();
 		} else {

@@ -9,7 +9,7 @@ public class NotYetImplementedException extends RuntimeException {
 
 	public NotYetImplementedException() {
 	}
-	
+
 	public NotYetImplementedException(String content) {
 		super(content);
 	}

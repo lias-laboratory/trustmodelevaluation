@@ -22,23 +22,25 @@ public class ApplicationRequirementsEngineTest {
 	public void generateBasicActions() {
 		// Given
 		Comment comment = new Comment(0, 5);
-		
-		PositiveAction positiveAction = new PositiveAction(new ApplicationConstraint(comment, new GreaterEqual(), new ApplicationValue(3)));
-		NegativeAction negativeAction = new NegativeAction(new ApplicationConstraint(comment, new Lower(), new ApplicationValue(3)));
+
+		PositiveAction positiveAction = new PositiveAction(
+				new ApplicationConstraint(comment, new GreaterEqual(), new ApplicationValue(3)));
+		NegativeAction negativeAction = new NegativeAction(
+				new ApplicationConstraint(comment, new Lower(), new ApplicationValue(3)));
 		Application covoiturage = new Application("Covoiturage", positiveAction, negativeAction);
-		
+
 		ApplicationRequirementsEngine engine = new ApplicationRequirementsEngine();
 		engine.addApplication(covoiturage);
-		
+
 		TraceLog appLog1 = new TraceLog("Covoiturage", 3);
 		TraceLog appLog2 = new TraceLog("Covoiturage", 2);
-		
-		// When 
+
+		// When
 		Action eval = engine.eval(appLog1);
-		
+
 		// Then
 		Assert.assertEquals(positiveAction, eval);
-		
+
 		eval = engine.eval(appLog2);
 		Assert.assertEquals(negativeAction, eval);
 	}

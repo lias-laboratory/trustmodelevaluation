@@ -6,21 +6,18 @@ package fr.ensma.lias.trustevaluation.model;
 public class Requirement {
 
 	private Task describedBy;
-	
-	private ScoreConstraint globalScoreConstraint;
-	
-	public Requirement(Task pDescribedBy) {
+
+	private ScoreElement scoreElement;
+
+	public Requirement(Task pDescribedBy, ScoreElement pScoreElement) {
 		this.describedBy = pDescribedBy;
+		this.scoreElement = pScoreElement;
 	}
 
-	public ScoreConstraint getGlobalScoreConstraint() {
-		return globalScoreConstraint;
+	public ScoreElement getScoreElement() {
+		return scoreElement;
 	}
 
-	public void setGlobalScoreConstraint(ScoreConstraint finalCondition) {
-		this.globalScoreConstraint = finalCondition;
-	}
-	
 	public Task getDescribedBy() {
 		return this.describedBy;
 	}

@@ -1,14 +1,12 @@
 package fr.ensma.lias.trustevaluation.engine;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import fr.ensma.lias.trustevaluation.computationalmodels.BayesienNetworkComputationalNetwork;
-import fr.ensma.lias.trustevaluation.engine.ComputationalEvaluationEngine;
-import fr.ensma.lias.trustevaluation.engine.Scenario;
-import fr.ensma.lias.trustevaluation.engine.UserRequirementsEngine;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
-import fr.ensma.lias.trustevaluation.model.Equal;
+import fr.ensma.lias.trustevaluation.model.GreaterEqual;
 import fr.ensma.lias.trustevaluation.model.NegativeTask;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
 import fr.ensma.lias.trustevaluation.model.Requirement;
@@ -31,19 +29,19 @@ public class ComputationalEvaluationTest {
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask);
+		Requirement current = new Requirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
-		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new Equal(), new ScoreValue(8));
+		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ScoreValue(8));
 		positiveTask.setIteration(3);
 		positiveTask.setConstraint(positiveTaskConstraint);
 		Task negativeTask1 = new NegativeTask("Negative Task");
 		negativeTask1.setIteration(2);
-		TaskScoreConstraint negativeTaskConstraint1 = new TaskScoreConstraint(scoreElement, new Equal(), new ScoreValue(7));
+		TaskScoreConstraint negativeTaskConstraint1 = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ScoreValue(7));
 		negativeTask1.setConstraint(negativeTaskConstraint1);
 		Task negativeTask2 = new NegativeTask("Negative Task");
 		negativeTask2.setIteration(4);
-		TaskScoreConstraint negativeTaskConstraint2 = new TaskScoreConstraint(scoreElement, new Equal(), new ScoreValue(2));
+		TaskScoreConstraint negativeTaskConstraint2 = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ScoreValue(-2));
 		negativeTask2.setConstraint(negativeTaskConstraint2);
 
 		abstractTask.addTask(positiveTask);
@@ -54,6 +52,9 @@ public class ComputationalEvaluationTest {
 		UserRequirementsEngine userEngine = new UserRequirementsEngine();
 		Scenario eval = userEngine.eval(current);
 		ComputationalEvaluationEngine ceEngine = new ComputationalEvaluationEngine();
-		ceEngine.eval(eval, new BayesienNetworkComputationalNetwork());		
+		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalNetwork());
+		
+		// Then
+		Assert.assertTrue(reportEvaluation.getScore() > 50);
 	}
 }

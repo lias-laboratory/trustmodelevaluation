@@ -6,39 +6,36 @@ import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
 /**
  * @author Mickael BARON
  */
-public abstract class ExecutedTask {
+public class SimulatedTask {
 
 	private Cause cause;
 
 	private TaskScoreConstraint constraint;
-	
+
 	private String name;
-	
-	private int computedValue;
-	
-	public ExecutedTask(String pName, Cause pCause, TaskScoreConstraint pConstraint) {
+
+	private boolean isPositive = false;
+
+	public SimulatedTask(String pName, Cause pCause, TaskScoreConstraint pConstraint, boolean pIsPositive) {
 		this.cause = pCause;
 		this.constraint = pConstraint;
 		this.name = pName;
+		this.isPositive = pIsPositive;
 	}
-	
+
 	public Cause getCause() {
 		return cause;
-	}	
-	
+	}
+
 	public TaskScoreConstraint getConstraint() {
 		return this.constraint;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
 
-	public int getComputedValue() {
-		return computedValue;
-	}
-
-	public void setComputedValue(int computedValue) {
-		this.computedValue = computedValue;
+	public boolean isPositive() {
+		return this.isPositive;
 	}
 }

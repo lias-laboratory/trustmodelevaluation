@@ -3,38 +3,42 @@ package fr.ensma.lias.trustevaluation.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.ensma.lias.trustevaluation.model.ScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.ScoreElement;
 
 /**
  * @author Mickael BARON
  */
 public class Scenario {
 
-	private List<ExecutedTask> executedTasks;
+	private List<SimulatedTask> simulatedTasks;
 
-	private ScoreConstraint globalScoreConstraint;
+	private ScoreElement scoreElement;
 
 	public Scenario() {
-		executedTasks = new ArrayList<>();
+		simulatedTasks = new ArrayList<>();
 	}
 
 	public int getLength() {
-		return executedTasks.size();
+		return simulatedTasks.size();
 	}
 
-	public ScoreConstraint getGlobalScoreConstraint() {
-		return this.globalScoreConstraint;
+	public void setSimulatedTasks(List<SimulatedTask> pSimulatedTasks) {
+		this.simulatedTasks = pSimulatedTasks;
 	}
-	
-	public void setExecutedTasks(List<ExecutedTask> pExecutedTasks) {
-		this.executedTasks = pExecutedTasks;
+
+	public SimulatedTask getSimulatedTask(int index) {
+		return this.simulatedTasks.get(index);
 	}
-	
-	public ExecutedTask getExecutedTask(int index) {
-		return this.executedTasks.get(index);
+
+	public List<SimulatedTask> getSimulatedTasks() {
+		return this.simulatedTasks;
 	}
-	
-	public List<ExecutedTask> getExecutedTasks() {
-		return this.executedTasks;
+
+	public ScoreElement getScoreElement() {
+		return scoreElement;
+	}
+
+	public void setScoreElement(ScoreElement pScoreElement) {
+		this.scoreElement = pScoreElement;
 	}
 }
