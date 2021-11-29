@@ -3,10 +3,10 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class ApplicationValue extends ConstraintValue {
+public class ExactScoreValue extends ScoreValue {
 
-	public ApplicationValue(int pValue) {
-		super(pValue);
+	public ExactScoreValue(int pExactValue) {
+		super(pExactValue);
 	}
 
 	@Override

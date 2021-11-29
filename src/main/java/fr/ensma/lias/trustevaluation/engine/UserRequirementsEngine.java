@@ -7,8 +7,10 @@ import fr.ensma.lias.trustevaluation.exceptions.NotYetImplementedException;
 import fr.ensma.lias.trustevaluation.model.Cause;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
 import fr.ensma.lias.trustevaluation.model.IterativeScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.PercentageScoreValue;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
 import fr.ensma.lias.trustevaluation.model.Requirement;
+import fr.ensma.lias.trustevaluation.model.ScoreValue;
 import fr.ensma.lias.trustevaluation.model.Task;
 import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
 
@@ -17,6 +19,8 @@ import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
  */
 public class UserRequirementsEngine {
 
+	private TaskScoreConstraint previousTaskConstraint;
+	
 	public Scenario eval(Requirement pRequirement) {
 		List<SimulatedTask> eval = this.eval(pRequirement.getDescribedBy());
 		Scenario currentScenario = new Scenario();
@@ -39,6 +43,14 @@ public class UserRequirementsEngine {
 						executedAllTasks.add(build(task, false));
 					}
 				} else {
+					if (task.getConstraint() != null) {
+						ScoreValue constraintValue = task.getConstraint().getConstraintValue();
+						if (constraintValue instanceof PercentageScoreValue) {
+							((PercentageScoreValue)constraintValue).setPreviousValue(previousTaskConstraint.getConstraintValue().getValue());
+						}						
+						
+						this.previousTaskConstraint = task.getConstraint(); 
+					}
 					executedAllTasks.add(build(task, true));
 				}
 			}

@@ -3,16 +3,13 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class ConstraintValue implements IValueInt {
+public abstract class ConstraintValue implements IValueInt {
 
-	private int value;
+	protected Integer value = null;
 
 	public ConstraintValue(int pValue) {
 		this.value = pValue;
 	}
 
-	@Override
-	public int getValue() {
-		return this.value;
-	}
+	public abstract int getValue();
 }
