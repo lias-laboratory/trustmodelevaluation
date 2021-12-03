@@ -22,7 +22,7 @@ public class ComputationalEvaluationTest {
 	
 	@Test
 	public void evaluateScenarioWithBayesienNetworkTest() {
-		// Requirement{score:[-100..100]}:(Abstract Task{null})^1>>[(Positive Task{score==8})^3;(Negative Task{score==7})^2;(Negative Task{score==2})^4]
+		// Requirement{score:[-100..100]}:(Abstract Task{null})^1>>[(Positive Task{score>=8})^3;(Negative Task{score>=7})^2;(Negative Task{score>=-2})^4]
 
 		// Given
 		ScoreElement scoreElement = new ScoreElement(-100, 100);

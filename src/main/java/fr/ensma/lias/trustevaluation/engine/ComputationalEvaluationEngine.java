@@ -1,11 +1,11 @@
 package fr.ensma.lias.trustevaluation.engine;
 
 import java.util.ArrayList;
-import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
 
-import fr.ensma.lias.trustevaluation.computationalmodels.ComputationalNetwork;
+import fr.ensma.lias.trustevaluation.computationalmodels.ComputationalModel;
+import fr.ensma.lias.trustevaluation.computationalmodels.ComputeScore;
 import fr.ensma.lias.trustevaluation.model.IValueInt;
 import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
 
@@ -14,22 +14,21 @@ import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
  */
 public class ComputationalEvaluationEngine {
 
-	public ReportEvaluation eval(Scenario scenario, ComputationalNetwork computationalNetwork) {
+	public ReportEvaluation eval(Scenario scenario, ComputationalModel computationalNetwork, ComputeScore computeScore) {
 		ReportEvaluation report = new ReportEvaluation();
 		report.setScoreElement(scenario.getScoreElement());
 
 		// First step: execute computational model.
 		this.executeComputationalModel(scenario.getSimulatedTasks(), computationalNetwork, report);
 
-		// Second step: compute the distances between computational model values and
-		// user requirements.
+		// Second step: eval constraint.
 		this.evalConstraint(report);
 
 		// Third step: compute distance.
 		this.computeDistance(report);
 
 		// Fourth step: compute final score.
-		this.computeFinalScore(report);
+		computeScore.computeScore(report);
 
 		// Third step: create a report.
 		return report;
@@ -43,7 +42,7 @@ public class ComputationalEvaluationEngine {
 	 * @param report
 	 */
 	protected void executeComputationalModel(List<SimulatedTask> simulatedTasks,
-			ComputationalNetwork computationalNetwork, ReportEvaluation report) {
+			ComputationalModel computationalNetwork, ReportEvaluation report) {
 		List<EvaluatedTask> evaluatedTasks = new ArrayList<>();
 
 		for (int i = 0; i < simulatedTasks.size(); i++) {
@@ -106,30 +105,5 @@ public class ComputationalEvaluationEngine {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Compute final score (percentage).
-	 * 
-	 * @param pReport
-	 */
-	protected void computeFinalScore(ReportEvaluation pReport) {
-		// Compute linear equation.
-		int maxDistance = pReport.getScoreElement().getMax() - pReport.getScoreElement().getMin();
-
-		List<Integer> scores = new ArrayList<>();
-		for (EvaluatedTask current : pReport.getEvaluatedTasks()) {
-			if (current.getConstraintEvaluation().isPresent()) {
-				if (current.getConstraintEvaluation().get()) {
-					scores.add(
-							(int) (-((float) 100 / (float) maxDistance) * current.getDistance().get() + (float) 100));
-				} else {
-					scores.add(0);
-				}
-			}
-		}
-
-		IntSummaryStatistics summaryStatistics = scores.stream().mapToInt(Integer::intValue).summaryStatistics();
-		pReport.setScore((int) summaryStatistics.getAverage());
 	}
 }

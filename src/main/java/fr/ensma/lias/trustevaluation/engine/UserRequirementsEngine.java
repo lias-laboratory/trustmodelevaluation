@@ -43,14 +43,6 @@ public class UserRequirementsEngine {
 						executedAllTasks.add(build(task, false));
 					}
 				} else {
-					if (task.getConstraint() != null) {
-						ScoreValue constraintValue = task.getConstraint().getConstraintValue();
-						if (constraintValue instanceof PercentageScoreValue) {
-							((PercentageScoreValue)constraintValue).setPreviousValue(previousTaskConstraint.getConstraintValue().getValue());
-						}						
-						
-						this.previousTaskConstraint = task.getConstraint(); 
-					}
 					executedAllTasks.add(build(task, true));
 				}
 			}
@@ -81,6 +73,15 @@ public class UserRequirementsEngine {
 		Cause cause = task.getCause();
 		String name = task.getName();
 
+		if (task.getConstraint() != null) {
+			ScoreValue constraintValue = task.getConstraint().getConstraintValue();
+			if (constraintValue instanceof PercentageScoreValue) {
+				((PercentageScoreValue)constraintValue).setPreviousValue(previousTaskConstraint.getConstraintValue().getValue());
+			}						
+			
+			this.previousTaskConstraint = task.getConstraint(); 
+		}
+		
 		return new SimulatedTask(name, cause, constraint, task instanceof PositiveTask);
 	}
 }
