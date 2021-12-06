@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import fr.ensma.lias.trustevaluation.computationalmodels.ArithmeticFunction;
-import fr.ensma.lias.trustevaluation.computationalmodels.BayesienNetworkComputationalNetwork;
+import fr.ensma.lias.trustevaluation.computationalmodels.BayesienNetworkComputationalModel;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
 import fr.ensma.lias.trustevaluation.model.ExactScoreValue;
@@ -22,7 +22,7 @@ import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
 public class ComputationalEvaluationTest {
 	
 	@Test
-	public void evaluateScenarioWithBayesienNetworkTest() {
+	public void evaluateScenarioWithBayesienNetworkWithArithmeticFunctionTest() {
 		// Requirement{score:[-100..100]}:(Abstract Task{null})^1>>[(Positive Task{score>=8})^3;(Negative Task{score>=7})^2;(Negative Task{score>=-2})^4]
 
 		// Given
@@ -53,9 +53,14 @@ public class ComputationalEvaluationTest {
 		UserRequirementsEngine userEngine = new UserRequirementsEngine();
 		Scenario eval = userEngine.eval(current);
 		ComputationalEvaluationEngine ceEngine = new ComputationalEvaluationEngine();
-		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalNetwork(), new ArithmeticFunction());
+		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalModel(), new ArithmeticFunction());
 		
 		// Then
 		Assert.assertTrue(reportEvaluation.getScore() > 50);
+	}
+	
+	@Test
+	public void evaluateScenarioWithBayesienNetworkWithMachineLearningFunctionTest() {
+		
 	}
 }

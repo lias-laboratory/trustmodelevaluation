@@ -33,4 +33,8 @@ public class ArithmeticFunction implements ComputeScore {
 		pReport.setScore((int) summaryStatistics.getAverage());
 	}
 
+	@Override
+	public void computeScore(ReportEvaluation report, Parameters pParameters) {
+		this.computeScore(report);
+	}
 }

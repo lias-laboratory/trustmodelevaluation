@@ -7,7 +7,7 @@ import fr.ensma.lias.trustevaluation.engine.SimulatedTask;
 /**
  * @author Mickael BARON
  */
-public class BayesienNetworkComputationalNetwork extends ComputationalModel {
+public class BayesienNetworkComputationalModel extends ComputationalModel {
 
 	@Override
 	public int compute(List<SimulatedTask> p, int max, int min) {
