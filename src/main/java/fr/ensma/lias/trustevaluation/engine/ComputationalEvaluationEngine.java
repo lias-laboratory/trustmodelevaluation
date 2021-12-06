@@ -77,13 +77,6 @@ public class ComputationalEvaluationEngine {
 					}
 				});
 				evaluatedTask.setConstraintEvaluation(Optional.of(eval));
-
-				// Compute distance.
-				if (eval) {
-					evaluatedTask.setDistance(
-							Optional.of(Math.abs(simulatedTask.getConstraint().getConstraintValue().getValue()
-									- evaluatedTask.getComputedValue())));
-				}
 			}
 		}
 	}
