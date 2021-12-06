@@ -3,6 +3,7 @@ package fr.ensma.lias.trustevaluation.engine;
 import org.junit.Assert;
 import org.junit.Test;
 
+import fr.ensma.lias.trustevaluation.computationalmodels.ArithmeticFunction;
 import fr.ensma.lias.trustevaluation.computationalmodels.BayesienNetworkComputationalNetwork;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
@@ -52,7 +53,7 @@ public class ComputationalEvaluationTest {
 		UserRequirementsEngine userEngine = new UserRequirementsEngine();
 		Scenario eval = userEngine.eval(current);
 		ComputationalEvaluationEngine ceEngine = new ComputationalEvaluationEngine();
-		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalNetwork());
+		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalNetwork(), new ArithmeticFunction());
 		
 		// Then
 		Assert.assertTrue(reportEvaluation.getScore() > 50);
