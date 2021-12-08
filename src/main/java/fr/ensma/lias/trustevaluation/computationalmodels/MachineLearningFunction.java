@@ -1,7 +1,12 @@
 package fr.ensma.lias.trustevaluation.computationalmodels;
 
+
+import fr.ensma.lias.trustevaluation.engine.EvaluatedTask;
 import fr.ensma.lias.trustevaluation.engine.ReportEvaluation;
 import fr.ensma.lias.trustevaluation.exceptions.NotYetImplementedException;
+
+import java.util.List;
+
 
 public class MachineLearningFunction implements ComputeScore {
 
@@ -12,14 +17,45 @@ public class MachineLearningFunction implements ComputeScore {
 		throw new NotYetImplementedException();
 	}
 
+
 	@Override
 	public void computeScore(ReportEvaluation report, Parameters pParameters) {
 		if (!pParameters.isExistKey(SEUIL)) {
 			throw new NotYetImplementedException();
 		}
 		int seuil = pParameters.getParameterValue(SEUIL);
+		int true_positives = 0 ;
+        int false_positives = 0 ;
+        int false_negatives = 0 ;
+		int true_negatives = 0 ; 
 		
-		// TODO
-	}
+		List<EvaluatedTask> evaluatedTasks = report.getEvaluatedTasks();
+		for (EvaluatedTask evaluatedTask : evaluatedTasks) {
+			if (evaluatedTask.getConstraintEvaluation().isPresent()) {
+				if (evaluatedTask.getConstraintEvaluation().get()) {
+					if((Math.abs(evaluatedTask.getSimulatedTask().getConstraint().getConstraintValue().getValue())>=seuil) && evaluatedTask.getComputedValue()>=seuil){
+						true_positives++;
+					}
+					if((Math.abs(evaluatedTask.getSimulatedTask().getConstraint().getConstraintValue().getValue())>=seuil) && evaluatedTask.getComputedValue()<seuil){
+						false_positives++;
+					}
+					if((Math.abs(evaluatedTask.getSimulatedTask().getConstraint().getConstraintValue().getValue())<seuil) && evaluatedTask.getComputedValue()>=seuil){
+						false_negatives++;
+					}
+					else
+					{
+						true_negatives++;
+					}
+				}
+			}
+		}
+		
 
-}
+		float accuracy= (true_positives + true_negatives) / (true_positives + true_negatives + false_positives + false_negatives);
+        float precision = true_positives / (true_positives + false_positives);
+        float recall= true_positives / (true_positives + false_negatives);
+        float F1_Score = 2 / ((1 / precision) + (1 / recall));
+		
+	}
+} 
+        
