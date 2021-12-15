@@ -49,7 +49,7 @@ public class ComputationalEvaluationTest {
 		abstractTask.addTask(negativeTask1);
 		abstractTask.addTask(negativeTask2);
 
-		// When
+		// When	
 		UserRequirementsEngine userEngine = new UserRequirementsEngine();
 		Scenario eval = userEngine.eval(current);
 		ComputationalEvaluationEngine ceEngine = new ComputationalEvaluationEngine();
