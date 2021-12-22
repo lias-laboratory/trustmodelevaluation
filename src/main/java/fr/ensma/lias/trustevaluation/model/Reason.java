@@ -3,7 +3,7 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class Cause {
+public class Reason {
 
 	protected Action action;
 	

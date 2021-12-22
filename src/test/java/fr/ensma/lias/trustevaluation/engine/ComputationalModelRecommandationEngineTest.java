@@ -5,44 +5,46 @@ import org.junit.Test;
 
 import fr.ensma.lias.trustevaluation.computationalmodels.ArithmeticFunction;
 import fr.ensma.lias.trustevaluation.computationalmodels.BayesienNetworkComputationalModel;
+import fr.ensma.lias.trustevaluation.computationalmodels.MachineLearningFunction;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
-import fr.ensma.lias.trustevaluation.model.ExactScoreValue;
+import fr.ensma.lias.trustevaluation.model.ExactTrustRequirementValue;
 import fr.ensma.lias.trustevaluation.model.GreaterEqual;
+import fr.ensma.lias.trustevaluation.model.Lower;
 import fr.ensma.lias.trustevaluation.model.NegativeTask;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
-import fr.ensma.lias.trustevaluation.model.Requirement;
-import fr.ensma.lias.trustevaluation.model.ScoreElement;
 import fr.ensma.lias.trustevaluation.model.Task;
-import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirement;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraintElement;
 
 /**
  * @author Mickael BARON
  */
-public class ComputationalEvaluationTest {
+public class ComputationalModelRecommandationEngineTest {
 	
 	@Test
 	public void evaluateScenarioWithBayesienNetworkWithArithmeticFunctionTest() {
 		// Requirement{score:[-100..100]}:(Abstract Task{null})^1>>[(Positive Task{score>=8})^3;(Negative Task{score>=7})^2;(Negative Task{score>=-2})^4]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(-100, 100);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(-100, 100);
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
-		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ExactScoreValue(8));
+		TrustRequirementConstraint positiveTaskConstraint = new TrustRequirementConstraint(scoreElement, new GreaterEqual(), new ExactTrustRequirementValue(8));
 		positiveTask.setIteration(3);
 		positiveTask.setConstraint(positiveTaskConstraint);
 		Task negativeTask1 = new NegativeTask("Negative Task");
 		negativeTask1.setIteration(2);
-		TaskScoreConstraint negativeTaskConstraint1 = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ExactScoreValue(7));
+		TrustRequirementConstraint negativeTaskConstraint1 = new TrustRequirementConstraint(scoreElement, new GreaterEqual(), new ExactTrustRequirementValue(7));
 		negativeTask1.setConstraint(negativeTaskConstraint1);
 		Task negativeTask2 = new NegativeTask("Negative Task");
 		negativeTask2.setIteration(4);
-		TaskScoreConstraint negativeTaskConstraint2 = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ExactScoreValue(-2));
+		TrustRequirementConstraint negativeTaskConstraint2 = new TrustRequirementConstraint(scoreElement, new GreaterEqual(), new ExactTrustRequirementValue(-2));
 		negativeTask2.setConstraint(negativeTaskConstraint2);
 
 		abstractTask.addTask(positiveTask);
@@ -50,9 +52,9 @@ public class ComputationalEvaluationTest {
 		abstractTask.addTask(negativeTask2);
 
 		// When	
-		UserRequirementsEngine userEngine = new UserRequirementsEngine();
+		TrustRequirementEngine userEngine = new TrustRequirementEngine();
 		Scenario eval = userEngine.eval(current);
-		ComputationalEvaluationEngine ceEngine = new ComputationalEvaluationEngine();
+		ComputationalModelRecommandationEngine ceEngine = new ComputationalModelRecommandationEngine();
 		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalModel(), new ArithmeticFunction());
 		
 		// Then
@@ -64,23 +66,23 @@ public class ComputationalEvaluationTest {
 		// Requirement{score:[-100..100]}:(Abstract Task{null})^1>>[(Positive Task{score>=50})^3;(Negative Task{score<50})^2;(Negative Task{score<50})^4]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(-100, 100);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(-100, 100);
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
-		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new GreaterEqual(), new ExactScoreValue(50));
+		TrustRequirementConstraint positiveTaskConstraint = new TrustRequirementConstraint(scoreElement, new GreaterEqual(), new ExactTrustRequirementValue(50));
 		positiveTask.setIteration(3);
 		positiveTask.setConstraint(positiveTaskConstraint);
 		Task negativeTask1 = new NegativeTask("Negative Task");
 		negativeTask1.setIteration(2);
-		TaskScoreConstraint negativeTaskConstraint1 = new TaskScoreConstraint(scoreElement, new Lower(), new ExactScoreValue(50));
+		TrustRequirementConstraint negativeTaskConstraint1 = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(50));
 		negativeTask1.setConstraint(negativeTaskConstraint1);
 		Task negativeTask2 = new NegativeTask("Negative Task");
 		negativeTask2.setIteration(4);
-		TaskScoreConstraint negativeTaskConstraint2 = new TaskScoreConstraint(scoreElement, new Lower(), new ExactScoreValue(50));
+		TrustRequirementConstraint negativeTaskConstraint2 = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(50));
 		negativeTask2.setConstraint(negativeTaskConstraint2);
 
 		abstractTask.addTask(positiveTask);
@@ -88,13 +90,12 @@ public class ComputationalEvaluationTest {
 		abstractTask.addTask(negativeTask2);
 
 		// When
-		UserRequirementsEngine userEngine = new UserRequirementsEngine();
+		TrustRequirementEngine userEngine = new TrustRequirementEngine();
 		Scenario eval = userEngine.eval(current);
-		ComputationalEvaluationEngine ceEngine = new ComputationalEvaluationEngine();
+		ComputationalModelRecommandationEngine ceEngine = new ComputationalModelRecommandationEngine();
 		ReportEvaluation reportEvaluation = ceEngine.eval(eval, new BayesienNetworkComputationalModel(), new MachineLearningFunction());
 
 		// Then
 		Assert.assertTrue(reportEvaluation.getScore() > 50);
-		
 	}
 }

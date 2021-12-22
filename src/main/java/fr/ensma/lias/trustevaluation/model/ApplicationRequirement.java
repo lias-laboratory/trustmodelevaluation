@@ -3,7 +3,7 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class Application {
+public class ApplicationRequirement {
 
 	private Action positiveAction;
 
@@ -11,12 +11,12 @@ public class Application {
 
 	private String name;
 
-	public Application(String name, Action positiveAction, Action negativeAction) {
+	public ApplicationRequirement(String name, Action positiveAction, Action negativeAction) {
 		super();
 		this.positiveAction = positiveAction;
-		this.positiveAction.setApplication(this);
+		this.positiveAction.setApplicationRequirement(this);
 		this.negativeAction = negativeAction;
-		this.negativeAction.setApplication(this);
+		this.negativeAction.setApplicationRequirement(this);
 		this.name = name;
 	}
 

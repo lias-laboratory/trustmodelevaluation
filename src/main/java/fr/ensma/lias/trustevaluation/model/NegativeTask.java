@@ -10,21 +10,12 @@ public class NegativeTask extends Task {
 
 		this.decomposition = Decomposition.LEAF;
 
-		this.cause = new Cause();
-		this.cause.action = pAction;
-		this.cause.value = value;
+		this.addNewCause(pAction, value);
 	}
 
 	public NegativeTask(String pName) {
 		super(pName);
 
 		this.decomposition = Decomposition.LEAF;
-
-		this.cause = null;
-	}
-
-	@Override
-	public Cause getCause() {
-		return this.cause;
 	}
 }

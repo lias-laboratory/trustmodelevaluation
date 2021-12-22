@@ -1,5 +1,7 @@
 package fr.ensma.lias.trustevaluation.model;
 
+import java.util.List;
+
 /**
  * @author Mickael BARON
  */
@@ -10,7 +12,7 @@ public class AbstractTask extends Task {
 	}
 
 	@Override
-	public Cause getCause() {
+	public List<Reason> getReasons() {
 		return null;
 	}
 }

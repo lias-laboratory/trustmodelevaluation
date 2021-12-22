@@ -2,7 +2,7 @@ package fr.ensma.lias.trustevaluation.engine;
 
 import java.util.List;
 
-import fr.ensma.lias.trustevaluation.model.ScoreElement;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraintElement;
 
 /**
  * @author Mickael BARON
@@ -11,7 +11,7 @@ public class ReportEvaluation {
 
 	private List<EvaluatedTask> evaluatedTasks;
 
-	private ScoreElement scoreElement;
+	private TrustRequirementConstraintElement scoreElement;
 
 	private int score;
 
@@ -23,11 +23,11 @@ public class ReportEvaluation {
 		this.evaluatedTasks = evaluatedTasks;
 	}
 
-	public ScoreElement getScoreElement() {
+	public TrustRequirementConstraintElement getScoreElement() {
 		return this.scoreElement;
 	}
 
-	public void setScoreElement(ScoreElement initScoreConstraint) {
+	public void setScoreElement(TrustRequirementConstraintElement initScoreConstraint) {
 		this.scoreElement = initScoreConstraint;
 	}
 

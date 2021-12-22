@@ -3,9 +3,9 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public abstract class ScoreConstraint extends Constraint<ScoreElement, ScoreValue> {
+public class TrustRequirementConstraint extends Constraint<TrustRequirementConstraintElement, TrustRequirementValue> {
 
-	public ScoreConstraint(ScoreElement pElement, ComparisonOperator pOperator, ScoreValue pConditionValue) {
+	public TrustRequirementConstraint(TrustRequirementConstraintElement pElement, ComparisonOperator pOperator, TrustRequirementValue pConditionValue) {
 		this.element = pElement;
 		this.operator = pOperator;
 		this.value = pConditionValue;

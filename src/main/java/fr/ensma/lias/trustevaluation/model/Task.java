@@ -20,13 +20,14 @@ public abstract class Task {
 
 	protected Decomposition decomposition;
 
-	protected Cause cause;
+	protected List<Reason> reasons;
 
-	protected TaskScoreConstraint constraint;
+	protected TrustRequirementConstraint constraint;
 
 	public Task(String pName) {
 		this.name = pName;
 		this.isComposedOf = new ArrayList<>();
+		this.reasons = new ArrayList<>();
 		this.decomposition = Decomposition.UNKNOWN;
 	}
 
@@ -74,15 +75,23 @@ public abstract class Task {
 		return this.parent;
 	}
 
-	public Cause getCause() {
-		return this.cause;
+	public List<Reason> getReasons() {
+		return this.reasons;
 	}
 
-	public TaskScoreConstraint getConstraint() {
+	public TrustRequirementConstraint getConstraint() {
 		return constraint;
 	}
 
-	public void setConstraint(TaskScoreConstraint constraint) {
+	public void setConstraint(TrustRequirementConstraint constraint) {
 		this.constraint = constraint;
+	}
+	
+	protected void addNewCause(Action pAction, int value) {
+		Reason newReason = new Reason();
+		newReason.action = pAction;
+		newReason.value = value;
+		
+		this.reasons.add(newReason);
 	}
 }

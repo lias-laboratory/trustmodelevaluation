@@ -5,29 +5,29 @@ import java.util.Map;
 
 import fr.ensma.lias.trustevaluation.exceptions.NotYetImplementedException;
 import fr.ensma.lias.trustevaluation.model.Action;
-import fr.ensma.lias.trustevaluation.model.Application;
-import fr.ensma.lias.trustevaluation.model.ApplicationConstraint;
+import fr.ensma.lias.trustevaluation.model.ApplicationRequirement;
+import fr.ensma.lias.trustevaluation.model.ApplicationRequirementConstraint;
 import fr.ensma.lias.trustevaluation.model.IValueInt;
 import fr.ensma.lias.trustevaluation.model.NeutralAction;
 
 /**
  * @author Mickael BARON
  */
-public class ApplicationRequirementsEngine {
+public class ApplicationRequirementEngine {
 
-	private Map<String, Application> store;
+	private Map<String, ApplicationRequirement> store;
 
-	public ApplicationRequirementsEngine() {
+	public ApplicationRequirementEngine() {
 		this.store = new HashMap<>();
 	}
 
-	public void addApplication(Application current) {
+	public void addApplication(ApplicationRequirement current) {
 		this.store.put(current.getName(), current);
 	}
 
 	public Action eval(TraceLog currentLog) {
 		// Find current application.
-		Application application = store.get(currentLog.getApplication());
+		ApplicationRequirement application = store.get(currentLog.getApplication());
 
 		if (application == null) {
 			throw new NotYetImplementedException("Application identifier not found.");
@@ -40,7 +40,7 @@ public class ApplicationRequirementsEngine {
 
 		if (!resultPositiveAction && !resultNegativeAction) {
 			NeutralAction neutralAction = new NeutralAction();
-			neutralAction.setApplication(application);
+			neutralAction.setApplicationRequirement(application);
 			return neutralAction;
 		}
 
@@ -55,7 +55,7 @@ public class ApplicationRequirementsEngine {
 		}
 	}
 
-	protected boolean checkAction(ApplicationConstraint constraint, IValueInt currentValue) {
+	protected boolean checkAction(ApplicationRequirementConstraint constraint, IValueInt currentValue) {
 		// Check valid value about the Feedback constraint.
 		if (!constraint.checkValue(currentValue)) {
 			throw new NotYetImplementedException("Value is not valid.");

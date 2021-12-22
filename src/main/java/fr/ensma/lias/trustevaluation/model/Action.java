@@ -5,20 +5,20 @@ package fr.ensma.lias.trustevaluation.model;
  */
 public abstract class Action {
 
-	private ApplicationConstraint constraint;
+	private ApplicationRequirementConstraint constraint;
 
 	private String informalDescription;
 
-	private Application parent;
+	private ApplicationRequirement reference;
 
 	public Action() {
 	}
 
-	public Action(ApplicationConstraint pConstraint) {
+	public Action(ApplicationRequirementConstraint pConstraint) {
 		this.constraint = pConstraint;
 	}
 
-	public ApplicationConstraint getConstraint() {
+	public ApplicationRequirementConstraint getConstraint() {
 		return constraint;
 	}
 
@@ -30,11 +30,11 @@ public abstract class Action {
 		this.informalDescription = informalDescription;
 	}
 
-	public void setApplication(Application pParent) {
-		this.parent = pParent;
+	public void setApplicationRequirement(ApplicationRequirement pParent) {
+		this.reference = pParent;
 	}
 
-	public Application getApplication() {
-		return this.parent;
+	public ApplicationRequirement getApplicationRequirement() {
+		return this.reference;
 	}
 }

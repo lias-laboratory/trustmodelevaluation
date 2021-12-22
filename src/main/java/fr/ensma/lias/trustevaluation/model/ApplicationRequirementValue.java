@@ -3,9 +3,9 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class ApplicationValue extends ConstraintValue {
+public class ApplicationRequirementValue extends ConstraintValue {
 
-	public ApplicationValue(int pValue) {
+	public ApplicationRequirementValue(int pValue) {
 		super(pValue);
 	}
 

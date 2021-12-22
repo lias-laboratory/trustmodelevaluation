@@ -1,33 +1,35 @@
 package fr.ensma.lias.trustevaluation.engine;
 
-import fr.ensma.lias.trustevaluation.model.Cause;
-import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
+import java.util.List;
+
+import fr.ensma.lias.trustevaluation.model.Reason;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraint;
 
 /**
  * @author Mickael BARON
  */
 public class SimulatedTask {
 
-	private Cause cause;
+	private List<Reason> reasons;
 
-	private TaskScoreConstraint constraint;
+	private TrustRequirementConstraint constraint;
 
 	private String name;
 
 	private boolean isPositive = false;
 
-	public SimulatedTask(String pName, Cause pCause, TaskScoreConstraint pConstraint, boolean pIsPositive) {
-		this.cause = pCause;
+	public SimulatedTask(String pName, List<Reason> pReasons, TrustRequirementConstraint pConstraint, boolean pIsPositive) {
+		this.reasons= pReasons;
 		this.constraint = pConstraint;
 		this.name = pName;
 		this.isPositive = pIsPositive;
 	}
 
-	public Cause getCause() {
-		return cause;
+	public List<Reason> getReasons() {
+		return this.reasons;
 	}
 
-	public TaskScoreConstraint getConstraint() {
+	public TrustRequirementConstraint getConstraint() {
 		return this.constraint;
 	}
 

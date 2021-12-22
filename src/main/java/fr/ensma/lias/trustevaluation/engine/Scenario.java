@@ -3,7 +3,7 @@ package fr.ensma.lias.trustevaluation.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.ensma.lias.trustevaluation.model.ScoreElement;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraintElement;
 
 /**
  * @author Mickael BARON
@@ -12,7 +12,7 @@ public class Scenario {
 
 	private List<SimulatedTask> simulatedTasks;
 
-	private ScoreElement scoreElement;
+	private TrustRequirementConstraintElement scoreElement;
 
 	public Scenario() {
 		simulatedTasks = new ArrayList<>();
@@ -34,11 +34,11 @@ public class Scenario {
 		return this.simulatedTasks;
 	}
 
-	public ScoreElement getScoreElement() {
+	public TrustRequirementConstraintElement getScoreElement() {
 		return scoreElement;
 	}
 
-	public void setScoreElement(ScoreElement pScoreElement) {
+	public void setScoreElement(TrustRequirementConstraintElement pScoreElement) {
 		this.scoreElement = pScoreElement;
 	}
 }

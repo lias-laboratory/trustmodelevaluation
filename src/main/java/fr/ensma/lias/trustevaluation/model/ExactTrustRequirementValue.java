@@ -3,9 +3,9 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class ExactScoreValue extends ScoreValue {
+public class ExactTrustRequirementValue extends TrustRequirementValue {
 
-	public ExactScoreValue(int pExactValue) {
+	public ExactTrustRequirementValue(int pExactValue) {
 		super(pExactValue);
 	}
 

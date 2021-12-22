@@ -3,10 +3,10 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class ApplicationConstraint extends Constraint<ApplicationElement, ApplicationValue> {
+public class ApplicationRequirementConstraint extends Constraint<ApplicationRequirementConstraintElement, ApplicationRequirementValue> {
 
-	public ApplicationConstraint(ApplicationElement pFeedback, ComparisonOperator pOperator,
-			ApplicationValue pConstraint) {
+	public ApplicationRequirementConstraint(ApplicationRequirementConstraintElement pFeedback, ComparisonOperator pOperator,
+			ApplicationRequirementValue pConstraint) {
 		this.element = pFeedback;
 		this.operator = pOperator;
 		this.value = pConstraint;

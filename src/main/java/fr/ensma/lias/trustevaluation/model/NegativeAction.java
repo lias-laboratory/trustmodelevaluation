@@ -5,7 +5,7 @@ package fr.ensma.lias.trustevaluation.model;
  */
 public class NegativeAction extends Action {
 
-	public NegativeAction(ApplicationConstraint pConstraint) {
+	public NegativeAction(ApplicationRequirementConstraint pConstraint) {
 		super(pConstraint);
 	}
 }

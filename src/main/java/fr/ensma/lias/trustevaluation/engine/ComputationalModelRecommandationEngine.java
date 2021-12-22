@@ -7,14 +7,15 @@ import java.util.Optional;
 import fr.ensma.lias.trustevaluation.computationalmodels.ComputationalModel;
 import fr.ensma.lias.trustevaluation.computationalmodels.ComputeScore;
 import fr.ensma.lias.trustevaluation.model.IValueInt;
-import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraint;
 
 /**
  * @author Mickael BARON
  */
-public class ComputationalEvaluationEngine {
+public class ComputationalModelRecommandationEngine {
 
-	public ReportEvaluation eval(Scenario scenario, ComputationalModel computationalNetwork, ComputeScore computeScore) {
+	public ReportEvaluation eval(Scenario scenario, ComputationalModel computationalNetwork,
+			ComputeScore computeScore) {
 		ReportEvaluation report = new ReportEvaluation();
 		report.setScoreElement(scenario.getScoreElement());
 
@@ -67,7 +68,7 @@ public class ComputationalEvaluationEngine {
 		List<EvaluatedTask> evaluatedTasks = pReport.getEvaluatedTasks();
 		for (EvaluatedTask evaluatedTask : evaluatedTasks) {
 			SimulatedTask simulatedTask = evaluatedTask.getSimulatedTask();
-			TaskScoreConstraint constraint = simulatedTask.getConstraint();
+			TrustRequirementConstraint constraint = simulatedTask.getConstraint();
 
 			if (constraint != null) {
 				boolean eval = constraint.eval(new IValueInt() {

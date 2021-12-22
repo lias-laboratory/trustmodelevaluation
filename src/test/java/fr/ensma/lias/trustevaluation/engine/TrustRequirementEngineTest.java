@@ -6,15 +6,15 @@ import org.junit.Test;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
 import fr.ensma.lias.trustevaluation.model.Equal;
-import fr.ensma.lias.trustevaluation.model.ExactScoreValue;
-import fr.ensma.lias.trustevaluation.model.IterativeScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.ExactTrustRequirementValue;
+import fr.ensma.lias.trustevaluation.model.IterativeTrustRequirementConstraint;
 import fr.ensma.lias.trustevaluation.model.NegativeTask;
 import fr.ensma.lias.trustevaluation.model.PercentageScoreValue;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
-import fr.ensma.lias.trustevaluation.model.Requirement;
-import fr.ensma.lias.trustevaluation.model.ScoreElement;
 import fr.ensma.lias.trustevaluation.model.Task;
-import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirement;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraintElement;
 
 /**
  * @author Mickael BARON
@@ -24,18 +24,18 @@ import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
  * ^n => iteration of n tasks 
  * {...} => score constraint
  */
-public class UserRequirementEngineTest {
+public class TrustRequirementEngineTest {
 
 	@Test
 	public void generateScenarioWithIterativeLeavesTaskTest() {
 		// Requirement(score:[0..150]):(Abstract Task{null})^1>>[(Positive Task{null})^15;(Negative Task{null})^5]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 
 		Task positiveTask = new PositiveTask("Positive Task");
 		positiveTask.setIteration(15);
@@ -46,7 +46,7 @@ public class UserRequirementEngineTest {
 		abstractTask.addTask(negativeTask);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then
@@ -58,12 +58,12 @@ public class UserRequirementEngineTest {
 		// Requirement(score:[0..150]):(Abstract Task{null})^3>>[(Positive Task{null})^15;(Negative Task{null})^5]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 		abstractTask.setIteration(3);
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 
 		Task positiveTask = new PositiveTask("Positive Task");
 		positiveTask.setIteration(15);
@@ -74,7 +74,7 @@ public class UserRequirementEngineTest {
 		abstractTask.addTask(negativeTask);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then
@@ -86,14 +86,14 @@ public class UserRequirementEngineTest {
 		// Requirement(score:[0..150]):(Positive Task{null})^1
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		
 		Task abstractTask = new PositiveTask("Positive Task");
 		abstractTask.setDecomposition(Decomposition.LEAF);
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then
@@ -105,18 +105,18 @@ public class UserRequirementEngineTest {
 		// Requirement(score:[0..150]):(Abstract Task{null})^1>>[(Positive Task{score==8})^1;(Negative Task{score==7})^1;(Negative Task{score==2})^1]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
-		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(8));
+		TrustRequirementConstraint positiveTaskConstraint = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(8));
 		positiveTask.setConstraint(positiveTaskConstraint);
 		Task negativeTask1 = new NegativeTask("Negative Task");
 		Task negativeTask2 = new NegativeTask("Negative Task");
-		TaskScoreConstraint negativeTaskConstraint2 = new TaskScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(2));
+		TrustRequirementConstraint negativeTaskConstraint2 = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(2));
 		negativeTask2.setConstraint(negativeTaskConstraint2);
 
 		abstractTask.addTask(positiveTask);
@@ -124,7 +124,7 @@ public class UserRequirementEngineTest {
 		abstractTask.addTask(negativeTask2);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then
@@ -142,23 +142,23 @@ public class UserRequirementEngineTest {
 		// Requirement(score:[0..150]):(Abstract Task{null})^1>>[(Positive Task{score==8})^3;(Negative Task{score==7})^2;(Negative Task{score==2})^4]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
-		TaskScoreConstraint positiveTaskConstraint = new TaskScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(8));
+		TrustRequirementConstraint positiveTaskConstraint = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(8));
 		positiveTask.setIteration(3);
 		positiveTask.setConstraint(positiveTaskConstraint);
 		Task negativeTask1 = new NegativeTask("Negative Task");
 		negativeTask1.setIteration(2);
-		TaskScoreConstraint negativeTaskConstraint1 = new TaskScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(7));
+		TrustRequirementConstraint negativeTaskConstraint1 = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(7));
 		negativeTask1.setConstraint(negativeTaskConstraint1);
 		Task negativeTask2 = new NegativeTask("Negative Task");
 		negativeTask2.setIteration(4);
-		TaskScoreConstraint negativeTaskConstraint2 = new TaskScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(2));
+		TrustRequirementConstraint negativeTaskConstraint2 = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(2));
 		negativeTask2.setConstraint(negativeTaskConstraint2);
 
 		abstractTask.addTask(positiveTask);
@@ -166,7 +166,7 @@ public class UserRequirementEngineTest {
 		abstractTask.addTask(negativeTask2);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then
@@ -181,21 +181,21 @@ public class UserRequirementEngineTest {
 		// Requirement{score:[0..150]}:(Abstract Task{null})^1>>[(Positive Task{score==8})^3;(Negative Task{score==7})^2;(Negative Task{score==2})^4]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
 
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask = new PositiveTask("Positive Task");
-		TaskScoreConstraint positiveTaskConstraint = new IterativeScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(8));
+		TrustRequirementConstraint positiveTaskConstraint = new IterativeTrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(8));
 		positiveTask.setIteration(3);
 		positiveTask.setConstraint(positiveTaskConstraint);
 		Task negativeTask1 = new NegativeTask("Negative Task");
 		negativeTask1.setIteration(2);
 		Task negativeTask2 = new NegativeTask("Negative Task");
 		negativeTask2.setIteration(4);
-		TaskScoreConstraint negativeTaskConstraint2 = new IterativeScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(2));
+		TrustRequirementConstraint negativeTaskConstraint2 = new IterativeTrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(2));
 		negativeTask2.setConstraint(negativeTaskConstraint2);
 
 		abstractTask.addTask(positiveTask);
@@ -203,7 +203,7 @@ public class UserRequirementEngineTest {
 		abstractTask.addTask(negativeTask2);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then
@@ -224,22 +224,22 @@ public class UserRequirementEngineTest {
 		// Requirement(score:[0..150]):(Abstract Task{null})^1>>[(Positive Task{score==10})^1;(Positive Task{score==+10%})^1;(Positive Task{score==+20})^1]
 
 		// Given
-		ScoreElement scoreElement = new ScoreElement(0, 150);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 150);
 		
 		Task abstractTask = new AbstractTask("Abstract Task");
 		abstractTask.setDecomposition(Decomposition.SEQ);
-		Requirement current = new Requirement(abstractTask, scoreElement);
+		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask1 = new PositiveTask("Positive Task 1");
-		TaskScoreConstraint positiveTask1Constraint = new TaskScoreConstraint(scoreElement, new Equal(), new ExactScoreValue(10));
+		TrustRequirementConstraint positiveTask1Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(10));
 		positiveTask1.setConstraint(positiveTask1Constraint);
 		
 		Task positiveTask2 = new PositiveTask("Positive Task 2");
-		TaskScoreConstraint positiveTask2Constraint = new TaskScoreConstraint(scoreElement, new Equal(), new PercentageScoreValue(10));
+		TrustRequirementConstraint positiveTask2Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new PercentageScoreValue(10));
 		positiveTask2.setConstraint(positiveTask2Constraint);
 		
 		Task positiveTask3 = new PositiveTask("Positive Task 3");
-		TaskScoreConstraint positiveTask3Constraint = new TaskScoreConstraint(scoreElement, new Equal(), new PercentageScoreValue(20));
+		TrustRequirementConstraint positiveTask3Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new PercentageScoreValue(20));
 		positiveTask3.setConstraint(positiveTask3Constraint);
 
 		abstractTask.addTask(positiveTask1);
@@ -247,7 +247,7 @@ public class UserRequirementEngineTest {
 		abstractTask.addTask(positiveTask3);
 
 		// When
-		UserRequirementsEngine engine = new UserRequirementsEngine();
+		TrustRequirementEngine engine = new TrustRequirementEngine();
 		Scenario eval = engine.eval(current);
 
 		// Then

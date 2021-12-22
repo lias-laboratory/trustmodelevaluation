@@ -3,7 +3,7 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class Comment extends ApplicationElement implements IValueInt {
+public class Comment extends ApplicationRequirementConstraintElement implements IValueInt {
 
 	private int max;
 
@@ -31,7 +31,7 @@ public class Comment extends ApplicationElement implements IValueInt {
 	public boolean checkValue(IValueInt current) {
 		return current.getValue() >= this.min && current.getValue() <= this.max;
 	}
-	
+
 	public String toString() {
 		return "Comment(min=" + this.min + ",max=" + this.max + ")";
 	}

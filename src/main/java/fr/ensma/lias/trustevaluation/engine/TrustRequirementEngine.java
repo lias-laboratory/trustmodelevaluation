@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensma.lias.trustevaluation.exceptions.NotYetImplementedException;
-import fr.ensma.lias.trustevaluation.model.Cause;
+import fr.ensma.lias.trustevaluation.model.Reason;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
-import fr.ensma.lias.trustevaluation.model.IterativeScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.IterativeTrustRequirementConstraint;
 import fr.ensma.lias.trustevaluation.model.PercentageScoreValue;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
-import fr.ensma.lias.trustevaluation.model.Requirement;
-import fr.ensma.lias.trustevaluation.model.ScoreValue;
 import fr.ensma.lias.trustevaluation.model.Task;
-import fr.ensma.lias.trustevaluation.model.TaskScoreConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirement;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraint;
+import fr.ensma.lias.trustevaluation.model.TrustRequirementValue;
 
 /**
  * @author Mickael BARON
  */
-public class UserRequirementsEngine {
+public class TrustRequirementEngine {
 
-	private TaskScoreConstraint previousTaskConstraint;
-	
-	public Scenario eval(Requirement pRequirement) {
+	private TrustRequirementConstraint previousTaskConstraint;
+
+	public Scenario eval(TrustRequirement pRequirement) {
 		List<SimulatedTask> eval = this.eval(pRequirement.getDescribedBy());
 		Scenario currentScenario = new Scenario();
 		currentScenario.setSimulatedTasks(eval);
@@ -35,7 +35,7 @@ public class UserRequirementsEngine {
 			List<SimulatedTask> executedAllTasks = new ArrayList<>();
 
 			for (int i = 0; i < task.getIteration(); i++) {
-				if (task.getConstraint() instanceof IterativeScoreConstraint) {
+				if (task.getConstraint() instanceof IterativeTrustRequirementConstraint) {
 					// Last element.
 					if (i == task.getIteration() - 1) {
 						executedAllTasks.add(build(task, true));
@@ -66,22 +66,23 @@ public class UserRequirementsEngine {
 	}
 
 	protected SimulatedTask build(Task task, boolean withCause) {
-		TaskScoreConstraint constraint = null;
+		TrustRequirementConstraint constraint = null;
 		if (withCause) {
 			constraint = task.getConstraint();
 		}
-		Cause cause = task.getCause();
+		List<Reason> reason = task.getReasons();
 		String name = task.getName();
 
 		if (task.getConstraint() != null) {
-			ScoreValue constraintValue = task.getConstraint().getConstraintValue();
+			TrustRequirementValue constraintValue = task.getConstraint().getConstraintValue();
 			if (constraintValue instanceof PercentageScoreValue) {
-				((PercentageScoreValue)constraintValue).setPreviousValue(previousTaskConstraint.getConstraintValue().getValue());
-			}						
-			
-			this.previousTaskConstraint = task.getConstraint(); 
+				((PercentageScoreValue) constraintValue)
+						.setPreviousValue(previousTaskConstraint.getConstraintValue().getValue());
+			}
+
+			this.previousTaskConstraint = task.getConstraint();
 		}
-		
-		return new SimulatedTask(name, cause, constraint, task instanceof PositiveTask);
+
+		return new SimulatedTask(name, reason, constraint, task instanceof PositiveTask);
 	}
 }

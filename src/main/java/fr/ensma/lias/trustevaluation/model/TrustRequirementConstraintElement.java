@@ -3,13 +3,13 @@ package fr.ensma.lias.trustevaluation.model;
 /**
  * @author Mickael BARON
  */
-public class ScoreElement extends ConstraintElement {
+public class TrustRequirementConstraintElement extends ConstraintElement {
 
 	private int max = 100;
 
 	private int min = -100;
 
-	public ScoreElement(int pMin, int pMax) {
+	public TrustRequirementConstraintElement(int pMin, int pMax) {
 		this.max = pMax;
 		this.min = pMin;
 	}

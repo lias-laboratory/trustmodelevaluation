@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import fr.ensma.lias.trustevaluation.model.Action;
-import fr.ensma.lias.trustevaluation.model.Application;
-import fr.ensma.lias.trustevaluation.model.ApplicationConstraint;
-import fr.ensma.lias.trustevaluation.model.ApplicationValue;
+import fr.ensma.lias.trustevaluation.model.ApplicationRequirement;
+import fr.ensma.lias.trustevaluation.model.ApplicationRequirementConstraint;
+import fr.ensma.lias.trustevaluation.model.ApplicationRequirementValue;
 import fr.ensma.lias.trustevaluation.model.Comment;
 import fr.ensma.lias.trustevaluation.model.Greater;
 import fr.ensma.lias.trustevaluation.model.GreaterEqual;
@@ -27,13 +27,13 @@ public class ApplicationRequirementsEngineTest {
 
 		// Comment >= 3
 		PositiveAction positiveAction = new PositiveAction(
-				new ApplicationConstraint(comment, new GreaterEqual(), new ApplicationValue(3)));
+				new ApplicationRequirementConstraint(comment, new GreaterEqual(), new ApplicationRequirementValue(3)));
 		// Comment < 3
 		NegativeAction negativeAction = new NegativeAction(
-				new ApplicationConstraint(comment, new Lower(), new ApplicationValue(3)));
-		Application covoiturage = new Application("Covoiturage", positiveAction, negativeAction);
+				new ApplicationRequirementConstraint(comment, new Lower(), new ApplicationRequirementValue(3)));
+		ApplicationRequirement covoiturage = new ApplicationRequirement("Covoiturage", positiveAction, negativeAction);
 
-		ApplicationRequirementsEngine engine = new ApplicationRequirementsEngine();
+		ApplicationRequirementEngine engine = new ApplicationRequirementEngine();
 		engine.addApplication(covoiturage);
 
 		// When
@@ -54,13 +54,13 @@ public class ApplicationRequirementsEngineTest {
 
 		// Comment >= 3
 		PositiveAction positiveAction = new PositiveAction(
-				new ApplicationConstraint(comment, new Greater(), new ApplicationValue(3)));
+				new ApplicationRequirementConstraint(comment, new Greater(), new ApplicationRequirementValue(3)));
 		// Comment < 3
 		NegativeAction negativeAction = new NegativeAction(
-				new ApplicationConstraint(comment, new Lower(), new ApplicationValue(2)));
-		Application covoiturage = new Application("Covoiturage", positiveAction, negativeAction);
+				new ApplicationRequirementConstraint(comment, new Lower(), new ApplicationRequirementValue(2)));
+		ApplicationRequirement covoiturage = new ApplicationRequirement("Covoiturage", positiveAction, negativeAction);
 
-		ApplicationRequirementsEngine engine = new ApplicationRequirementsEngine();
+		ApplicationRequirementEngine engine = new ApplicationRequirementEngine();
 		engine.addApplication(covoiturage);
 
 		// When

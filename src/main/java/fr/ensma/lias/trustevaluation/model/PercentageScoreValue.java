@@ -5,7 +5,7 @@ import fr.ensma.lias.trustevaluation.exceptions.NotYetImplementedException;
 /**
  * @author Mickael BARON
  */
-public class PercentageScoreValue extends ScoreValue {
+public class PercentageScoreValue extends TrustRequirementValue {
 
 	protected Integer previousValue = null; 
 	
