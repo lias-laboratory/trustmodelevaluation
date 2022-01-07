@@ -18,4 +18,12 @@ public abstract class Constraint<T extends ConstraintElement, U extends Constrai
 	public U getConstraintValue() {
 		return value;
 	}
+	
+	public void setConstraintValue(U p) {
+		this.value = p;
+	}
+	
+	public ComparisonOperator getOperator() {
+		return this.operator;
+	}
 }

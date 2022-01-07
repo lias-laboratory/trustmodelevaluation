@@ -13,4 +13,8 @@ public class ExactTrustRequirementValue extends TrustRequirementValue {
 	public int getValue() {
 		return this.value;
 	}	
+	
+	public ExactTrustRequirementValue transformToExactValue(int value) {
+		return new ExactTrustRequirementValue(value);
+	}
 }

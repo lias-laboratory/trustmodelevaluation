@@ -231,15 +231,15 @@ public class TrustRequirementEngineTest {
 		TrustRequirement current = new TrustRequirement(abstractTask, scoreElement);
 		
 		Task positiveTask1 = new PositiveTask("Positive Task 1");
-		TrustRequirementConstraint positiveTask1Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(10));
+		TrustRequirementConstraint positiveTask1Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new ExactTrustRequirementValue(20));
 		positiveTask1.setConstraint(positiveTask1Constraint);
 		
 		Task positiveTask2 = new PositiveTask("Positive Task 2");
-		TrustRequirementConstraint positiveTask2Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new PercentageScoreValue(10));
+		TrustRequirementConstraint positiveTask2Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new PercentageScoreValue(10,10));
 		positiveTask2.setConstraint(positiveTask2Constraint);
 		
 		Task positiveTask3 = new PositiveTask("Positive Task 3");
-		TrustRequirementConstraint positiveTask3Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new PercentageScoreValue(20));
+		TrustRequirementConstraint positiveTask3Constraint = new TrustRequirementConstraint(scoreElement, new Equal(), new PercentageScoreValue(20,10));
 		positiveTask3.setConstraint(positiveTask3Constraint);
 
 		abstractTask.addTask(positiveTask1);
@@ -252,8 +252,8 @@ public class TrustRequirementEngineTest {
 
 		// Then
 		Assert.assertEquals(3, eval.getLength());
-		Assert.assertEquals(10, positiveTask1.getConstraint().getConstraintValue().getValue());
-		Assert.assertEquals(11, positiveTask2.getConstraint().getConstraintValue().getValue());
-		Assert.assertEquals(13, positiveTask3.getConstraint().getConstraintValue().getValue());
+		Assert.assertEquals(20, eval.getSimulatedTask(0).getConstraint().getConstraintValue().getValue());
+		Assert.assertEquals(22, eval.getSimulatedTask(1).getConstraint().getConstraintValue().getValue());
+		Assert.assertEquals(26, eval.getSimulatedTask(2).getConstraint().getConstraintValue().getValue());
 	}
 }

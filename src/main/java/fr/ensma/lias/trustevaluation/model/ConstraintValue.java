@@ -11,5 +11,8 @@ public abstract class ConstraintValue implements IValueInt {
 		this.value = pValue;
 	}
 
-	public abstract int getValue();
+	@Override
+	public int getValue() {
+		return this.value;
+	}	
 }

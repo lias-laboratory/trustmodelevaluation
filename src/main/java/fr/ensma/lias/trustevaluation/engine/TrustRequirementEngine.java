@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensma.lias.trustevaluation.exceptions.NotYetImplementedException;
-import fr.ensma.lias.trustevaluation.model.Reason;
 import fr.ensma.lias.trustevaluation.model.Decomposition;
 import fr.ensma.lias.trustevaluation.model.IterativeTrustRequirementConstraint;
 import fr.ensma.lias.trustevaluation.model.PercentageScoreValue;
@@ -19,7 +18,7 @@ import fr.ensma.lias.trustevaluation.model.TrustRequirementValue;
  */
 public class TrustRequirementEngine {
 
-	private TrustRequirementConstraint previousTaskConstraint;
+	private Integer previousValue = null;
 
 	public Scenario eval(TrustRequirement pRequirement) {
 		List<SimulatedTask> eval = this.eval(pRequirement.getDescribedBy());
@@ -42,7 +41,7 @@ public class TrustRequirementEngine {
 					} else {
 						executedAllTasks.add(build(task, false));
 					}
-				} else {
+				} else { 
 					executedAllTasks.add(build(task, true));
 				}
 			}
@@ -65,24 +64,23 @@ public class TrustRequirementEngine {
 		}
 	}
 
-	protected SimulatedTask build(Task task, boolean withCause) {
+	protected SimulatedTask build(Task task, boolean withCause) {		
 		TrustRequirementConstraint constraint = null;
-		if (withCause) {
-			constraint = task.getConstraint();
-		}
-		List<Reason> reason = task.getReasons();
-		String name = task.getName();
-
+				
 		if (task.getConstraint() != null) {
-			TrustRequirementValue constraintValue = task.getConstraint().getConstraintValue();
-			if (constraintValue instanceof PercentageScoreValue) {
-				((PercentageScoreValue) constraintValue)
-						.setPreviousValue(previousTaskConstraint.getConstraintValue().getValue());
-			}
-
-			this.previousTaskConstraint = task.getConstraint();
+			if (withCause) {
+				TrustRequirementValue constraintValue = task.getConstraint().getConstraintValue();
+				if (constraintValue instanceof PercentageScoreValue) {
+					this.previousValue = ((PercentageScoreValue)constraintValue).computeValue(this.previousValue);
+				} else {
+					this.previousValue = constraintValue.getValue();
+				}
+				
+				
+				constraint  = (TrustRequirementConstraint)task.getConstraint().transform(previousValue);
+			}			
 		}
 
-		return new SimulatedTask(name, reason, constraint, task instanceof PositiveTask);
+		return new SimulatedTask(task.getName(), task.getReasons(), constraint, task instanceof PositiveTask);
 	}
 }
