@@ -9,4 +9,7 @@ public class Greater extends AbstractComparisonOperator {
 		return leftElement.getValue() > rightElement.getValue();
 	}
 
+	public String toString() {
+		return ">";
+	}
 }

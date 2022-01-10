@@ -30,4 +30,8 @@ public class TrustRequirementConstraint extends Constraint<TrustRequirementConst
 
 		return clone;
 	}
+	
+	public String toString() {
+		return ("score" + " " + this.operator.toString() + " " + this.value.toString());
+	}
 }

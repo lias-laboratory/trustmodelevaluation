@@ -7,16 +7,16 @@ import fr.ensma.lias.trustevaluation.engine.SimulatedTask;
 /**
  * @author Mickael BARON
  */
-public class BayesienNetworkComputationalModel implements ComputationalModel {
+public class EigenTrustNetworkComputationalModel implements ComputationalModel {
 
 	@Override
 	public int compute(List<SimulatedTask> p, int max, int min) {
 		long positive = p.stream().filter(sc -> sc.isPositive()).count();
 		long negative = p.stream().filter(sc -> !sc.isPositive()).count();
-		
-		long num = positive - negative;
-		long den = (positive + negative + 2);
 
+		long num = Math.max(positive - negative, 0);
+		long den = (positive + negative);
+		
 		float value = (float) num / den;
 
 		if (value >= 0) {
@@ -28,6 +28,7 @@ public class BayesienNetworkComputationalModel implements ComputationalModel {
 
 	@Override
 	public String getComputationalModelName() {
-		return "BayesienNetworkComputationalModel";
+		return "EigenTrustNetworkComputationalModel";
 	}
+
 }

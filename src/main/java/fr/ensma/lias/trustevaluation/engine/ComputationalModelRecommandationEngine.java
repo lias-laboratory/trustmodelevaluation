@@ -18,7 +18,8 @@ public class ComputationalModelRecommandationEngine {
 			ComputeScore computeScore) {
 		ReportEvaluation report = new ReportEvaluation();
 		report.setScoreElement(scenario.getScoreElement());
-
+		report.setComputionalModelName(computationalNetwork.getComputationalModelName());
+		
 		// First step: execute computational model.
 		this.executeComputationalModel(scenario.getSimulatedTasks(), computationalNetwork, report);
 
@@ -53,7 +54,7 @@ public class ComputationalModelRecommandationEngine {
 
 			evaluatedTasks.add(evaluatedTask);
 		}
-
+		
 		report.setEvaluatedTasks(evaluatedTasks);
 	}
 

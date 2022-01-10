@@ -40,4 +40,8 @@ public class SimulatedTask {
 	public boolean isPositive() {
 		return this.isPositive;
 	}
+	
+	public String toString() {
+		return this.name + " " + this.constraint;
+	}
 }

@@ -15,6 +15,8 @@ public class ReportEvaluation {
 
 	private int score;
 
+	private String computionalModelName;
+	
 	public List<EvaluatedTask> getEvaluatedTasks() {
 		return evaluatedTasks;
 	}
@@ -37,5 +39,17 @@ public class ReportEvaluation {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	public String getComputionalModelName() {
+		return this.computionalModelName;
+	}
+	
+	public void setComputionalModelName(String p) {
+		this.computionalModelName = p;
+	}
+	
+	public String toString() {
+		return this.computionalModelName + ": " + this.getScore();
 	}
 }

@@ -17,4 +17,13 @@ public class ExactTrustRequirementValue extends TrustRequirementValue {
 	public ExactTrustRequirementValue transformToExactValue(int value) {
 		return new ExactTrustRequirementValue(value);
 	}
+	
+	@Override
+	public String toString() {
+		if (this.value != null) {
+			return Integer.toString(getValue());
+		} else {
+			return "NaN";
+		}
+	}
 }

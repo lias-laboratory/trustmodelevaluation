@@ -3,7 +3,15 @@ package fr.ensma.lias.trustevaluation.casestudies;
 import org.junit.Assert;
 import org.junit.Test;
 
+import fr.ensma.lias.trustevaluation.computationalmodels.ArithmeticFunction;
+import fr.ensma.lias.trustevaluation.computationalmodels.BayesienNetworkComputationalModel;
+import fr.ensma.lias.trustevaluation.computationalmodels.ComputationalModel;
+import fr.ensma.lias.trustevaluation.computationalmodels.ComputeScore;
+import fr.ensma.lias.trustevaluation.computationalmodels.EigenTrustNetworkComputationalModel;
+import fr.ensma.lias.trustevaluation.engine.ComputationalModelRecommandationEngine;
+import fr.ensma.lias.trustevaluation.engine.ReportEvaluation;
 import fr.ensma.lias.trustevaluation.engine.Scenario;
+import fr.ensma.lias.trustevaluation.engine.SimulatedTask;
 import fr.ensma.lias.trustevaluation.engine.TrustRequirementEngine;
 import fr.ensma.lias.trustevaluation.model.AbstractTask;
 import fr.ensma.lias.trustevaluation.model.ApplicationRequirement;
@@ -15,6 +23,7 @@ import fr.ensma.lias.trustevaluation.model.ExactTrustRequirementValue;
 import fr.ensma.lias.trustevaluation.model.Greater;
 import fr.ensma.lias.trustevaluation.model.Lower;
 import fr.ensma.lias.trustevaluation.model.NegativeAction;
+import fr.ensma.lias.trustevaluation.model.NegativeTask;
 import fr.ensma.lias.trustevaluation.model.PercentageScoreValue;
 import fr.ensma.lias.trustevaluation.model.PositiveAction;
 import fr.ensma.lias.trustevaluation.model.PositiveTask;
@@ -25,6 +34,13 @@ import fr.ensma.lias.trustevaluation.model.TrustRequirementConstraintElement;
 
 public class RCISPaper {
 
+	private String computationalModel(Scenario s, ComputationalModel cm, ComputeScore cs) {
+		ComputationalModelRecommandationEngine ceEngine = new ComputationalModelRecommandationEngine();
+		ReportEvaluation reportEvaluation = ceEngine.eval(s, cm, cs);
+
+		return reportEvaluation.toString();
+	}
+	
 	@Test
 	public void allUseCase() {
 		// **
@@ -54,35 +70,46 @@ public class RCISPaper {
 		// * Define all TrustRequirement based on the previous ApplicationRequirement objects.
 		// **
 		
-		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 300);
+		TrustRequirementConstraintElement scoreElement = new TrustRequirementConstraintElement(0, 100);
 		
-		// Weighted toward current behavior
-		// Requirement(score:[0..300]):(Weighted toward current behavior{null})^1>>[(Positive Task{score>+10%})^7;(Negative Task{score<-20%})^4]
+		// Weighted toward current behavior.
+		// Requirement(score:[0..300]):(Weighted toward current behavior{null})^1>>[(Positive Task 1{score>+10%})^7;(Negative Task 2{score<-20%})^4]
 		
-		Task wtch = new AbstractTask("Weighted toward current behavior");
-		wtch.setDecomposition(Decomposition.SEQ);
-		TrustRequirement wtchRequirement = new TrustRequirement(wtch, scoreElement);
+		Task wtcb = new AbstractTask("Weighted toward current behavior");
+		wtcb.setDecomposition(Decomposition.SEQ);
+		TrustRequirement wtcbRequirement = new TrustRequirement(wtcb, scoreElement);
 		
-		Task positiveTaskWtch = new PositiveTask("Positive Task");
-		positiveTaskWtch.setIteration(7);
-		TrustRequirementConstraint positiveTaskConstraintWtch = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(15,10));
-		positiveTaskWtch.setConstraint(positiveTaskConstraintWtch);
+		Task positiveTask1Wtch = new PositiveTask("Positive Task 1");
+		positiveTask1Wtch.setIteration(7);
+		TrustRequirementConstraint positiveTask1ConstraintWtch = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(15,10));
+		positiveTask1Wtch.setConstraint(positiveTask1ConstraintWtch);
 		
-		Task negativeTaskWtch = new PositiveTask("Negative Task");
-		negativeTaskWtch.setIteration(4);
-		TrustRequirementConstraint negativeTaskConstraintWtch = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-30));
-		negativeTaskWtch.setConstraint(negativeTaskConstraintWtch);
+		Task negativeTask2Wtch = new NegativeTask("Negative Task 2");
+		negativeTask2Wtch.setIteration(4);
+		TrustRequirementConstraint negativeTask2ConstraintWtch = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-30));
+		negativeTask2Wtch.setConstraint(negativeTask2ConstraintWtch);
 		
-		wtch.addTask(positiveTaskWtch);
-		wtch.addTask(negativeTaskWtch);
+		wtcb.addTask(positiveTask1Wtch);
+		wtcb.addTask(negativeTask2Wtch);
 		
 		TrustRequirementEngine engine = new TrustRequirementEngine();
-		Scenario wtchScenario = engine.eval(wtchRequirement);
+		Scenario wtcbScenario = engine.eval(wtcbRequirement);
 		
-		Assert.assertEquals(11, wtchScenario.getLength());
+		
+		System.out.println("** Weighted toward current behavior");
+		Assert.assertEquals(11, wtcbScenario.getLength());
 
-		// Efficient
-		// Requirement(score:[0..300]):(Efficient{null})^1>>[(Positive Task{score>+10%})^4;(Negative Task{score<6)^1;(Positive Task{score>20%})^2;(Negative Task{score<6)^1]
+		for(SimulatedTask current : wtcbScenario.getSimulatedTasks()) {
+			System.out.println(current);
+		}
+		
+		System.out.println(computationalModel(wtcbScenario, new BayesienNetworkComputationalModel(), new ArithmeticFunction()));
+		System.out.println(computationalModel(wtcbScenario, new EigenTrustNetworkComputationalModel(), new ArithmeticFunction()));
+		
+		System.out.println("");
+
+		// Efficient.
+		// Requirement(score:[0..300]):(Efficient{null})^1>>[(Positive Task 1{score>+10%})^4;(Negative Task 2{score<6)^1;(Positive Task 3{score>+20%})^2;(Negative Task 4{score<6)^1]
 				
 		Task efficient = new AbstractTask("Efficient");
 		efficient.setDecomposition(Decomposition.SEQ);
@@ -94,32 +121,82 @@ public class RCISPaper {
 		TrustRequirementConstraint positiveTask1ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,10));
 		positiveTask1Efficient.setConstraint(positiveTask1ConstraintEfficient);
 		
-		Task negativeTask1Efficient = new PositiveTask("Negative Task 1");
-		TrustRequirementConstraint negativeTask1ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(6));
-		negativeTask1Efficient.setConstraint(negativeTask1ConstraintEfficient);
-
-		Task positiveTask2Efficient = new PositiveTask("Positive Task 2");
-		positiveTask2Efficient.setIteration(2);
-		TrustRequirementConstraint positiveTask2ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,10));
-		positiveTask2Efficient.setConstraint(positiveTask2ConstraintEfficient);
-
 		Task negativeTask2Efficient = new PositiveTask("Negative Task 2");
 		TrustRequirementConstraint negativeTask2ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(6));
 		negativeTask2Efficient.setConstraint(negativeTask2ConstraintEfficient);
+
+		Task positiveTask3Efficient = new PositiveTask("Positive Task 3");
+		positiveTask3Efficient.setIteration(2);
+		TrustRequirementConstraint positiveTask3ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10));
+		positiveTask3Efficient.setConstraint(positiveTask3ConstraintEfficient);
+
+		Task negativeTask4Efficient = new PositiveTask("Negative Task 4");
+		negativeTask4Efficient.setIteration(1);
+		TrustRequirementConstraint negativeTask4ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(6));
+		negativeTask4Efficient.setConstraint(negativeTask4ConstraintEfficient);
 		
 		efficient.addTask(positiveTask1Efficient);
-		efficient.addTask(negativeTask1Efficient);
-		efficient.addTask(positiveTask2Efficient);
 		efficient.addTask(negativeTask2Efficient);
+		efficient.addTask(positiveTask3Efficient);
+		efficient.addTask(negativeTask4Efficient);
 		
 		engine = new TrustRequirementEngine();
 		Scenario efficientScenario = engine.eval(efficientRequirement);
-		
+			
+		System.out.println("** Efficient");
 		Assert.assertEquals(8, efficientScenario.getLength());
 		
-		// Smooth
-
+		for(SimulatedTask current : efficientScenario.getSimulatedTasks()) {
+			System.out.println(current);
+		}
 		
-		// ComputationalModel recommandation.
+		System.out.println(computationalModel(efficientScenario, new BayesienNetworkComputationalModel(), new ArithmeticFunction()));
+		System.out.println(computationalModel(efficientScenario, new EigenTrustNetworkComputationalModel(), new ArithmeticFunction()));
+
+		System.out.println("");
+		
+		// Smooth
+		// Requirement(score:[0..300]):(Smooth{null})^1>>[(Positive Task 1{score>+10%})^5;(Negative Task 2{score<-5%)^1;(Positive Task 3{score>+10%})^5;(Negative Task{score<-5%)^6]
+		
+		Task smooth = new AbstractTask("Smooth");
+		smooth.setDecomposition(Decomposition.SEQ);
+		TrustRequirement smoothRequirement = new TrustRequirement(smooth, scoreElement);
+		
+		Task positiveTask1Smooth = new PositiveTask("Positive Task 1");
+		positiveTask1Smooth.setIteration(5);
+		TrustRequirementConstraint positiveTask1ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10, 10));
+		positiveTask1Smooth.setConstraint(positiveTask1ConstraintSmooth);
+		
+		Task negativeTask2Smooth = new PositiveTask("Negative Task 2");
+		negativeTask2Smooth.setIteration(1);
+		TrustRequirementConstraint negativeTask2ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-5));
+		negativeTask2Smooth.setConstraint(negativeTask2ConstraintSmooth);
+		
+		Task positiveTask3Smooth = new PositiveTask("Positive Task 3");
+		positiveTask3Smooth.setIteration(5);
+		TrustRequirementConstraint positiveTask3ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10));
+		positiveTask3Smooth.setConstraint(positiveTask3ConstraintSmooth);
+		
+		Task negativeTask4Smooth = new PositiveTask("Negative Task 4");
+		negativeTask4Smooth.setIteration(6);
+		TrustRequirementConstraint negativeTask4ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-5));
+		negativeTask4Smooth.setConstraint(negativeTask4ConstraintSmooth);
+		
+		smooth.addTask(positiveTask1Smooth);
+		smooth.addTask(negativeTask2Smooth);
+		smooth.addTask(positiveTask3Smooth);
+		smooth.addTask(negativeTask4Smooth);
+		
+		engine = new TrustRequirementEngine();
+		Scenario smoothScenario = engine.eval(smoothRequirement);
+		
+		System.out.println("** Smooth");
+		Assert.assertEquals(17, smoothScenario.getLength());
+		for(SimulatedTask current : smoothScenario.getSimulatedTasks()) {
+			System.out.println(current);
+		}
+		
+		System.out.println(computationalModel(smoothScenario, new BayesienNetworkComputationalModel(), new ArithmeticFunction()));
+		System.out.println(computationalModel(smoothScenario, new EigenTrustNetworkComputationalModel(), new ArithmeticFunction()));
 	}	
 }

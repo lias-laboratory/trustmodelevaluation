@@ -9,4 +9,7 @@ public class Lower extends AbstractComparisonOperator {
 		return leftElement.getValue() < rightElement.getValue();
 	}
 
+	public String toString() {
+		return "<";
+	}
 }
