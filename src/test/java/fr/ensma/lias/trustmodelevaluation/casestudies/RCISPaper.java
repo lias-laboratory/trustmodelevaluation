@@ -60,7 +60,7 @@ public class RCISPaper {
 		NegativeAction driverRateNegativeAction = new NegativeAction(
 				new ApplicationRequirementConstraint(comment, new Lower(), new ApplicationRequirementValue(2)));
 		ApplicationRequirement driverRate = new ApplicationRequirement("DriverRate", driverRatePositiveAction, driverRateNegativeAction);
-
+        System.out.println(driverRate);
 		// PassengerRate (Comment > 2)
 		PositiveAction passengerRatePositiveAction = new PositiveAction(
 				new ApplicationRequirementConstraint(comment, new Greater(), new ApplicationRequirementValue(2)));
@@ -68,7 +68,7 @@ public class RCISPaper {
 		NegativeAction passengerRateNegativeAction = new NegativeAction(
 				new ApplicationRequirementConstraint(comment, new Lower(), new ApplicationRequirementValue(2)));
 		ApplicationRequirement passengerRate = new ApplicationRequirement("PassengerRate", passengerRatePositiveAction, passengerRateNegativeAction);
-			
+		System.out.println(passengerRate);
 		// **
 		// * Define all TrustRequirement based on the previous ApplicationRequirement objects.
 		// **
@@ -84,12 +84,12 @@ public class RCISPaper {
 		
 		Task positiveTask1Wtch = new PositiveTask("Positive Task 1");
 		positiveTask1Wtch.setIteration(7);
-		TrustRequirementConstraint positiveTask1ConstraintWtch = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(15,10));
+		TrustRequirementConstraint positiveTask1ConstraintWtch = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,20));
 		positiveTask1Wtch.setConstraint(positiveTask1ConstraintWtch);
 		
 		Task negativeTask2Wtch = new NegativeTask("Negative Task 2");
 		negativeTask2Wtch.setIteration(4);
-		TrustRequirementConstraint negativeTask2ConstraintWtch = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-30));
+		TrustRequirementConstraint negativeTask2ConstraintWtch = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-20,-30));
 		negativeTask2Wtch.setConstraint(negativeTask2ConstraintWtch);
 		
 		wtcb.addTask(positiveTask1Wtch);
@@ -121,21 +121,21 @@ public class RCISPaper {
 		
 		Task positiveTask1Efficient = new PositiveTask("Positive Task 1");
 		positiveTask1Efficient.setIteration(4);
-		TrustRequirementConstraint positiveTask1ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,10));
+		TrustRequirementConstraint positiveTask1ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,20));
 		positiveTask1Efficient.setConstraint(positiveTask1ConstraintEfficient);
 		
-		Task negativeTask2Efficient = new PositiveTask("Negative Task 2");
-		TrustRequirementConstraint negativeTask2ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(6));
+		Task negativeTask2Efficient = new NegativeTask("Negative Task 2");
+		TrustRequirementConstraint negativeTask2ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-20,-25));
 		negativeTask2Efficient.setConstraint(negativeTask2ConstraintEfficient);
 
 		Task positiveTask3Efficient = new PositiveTask("Positive Task 3");
 		positiveTask3Efficient.setIteration(2);
-		TrustRequirementConstraint positiveTask3ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10));
+		TrustRequirementConstraint positiveTask3ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,20));
 		positiveTask3Efficient.setConstraint(positiveTask3ConstraintEfficient);
 
-		Task negativeTask4Efficient = new PositiveTask("Negative Task 4");
+		Task negativeTask4Efficient = new NegativeTask("Negative Task 4");
 		negativeTask4Efficient.setIteration(1);
-		TrustRequirementConstraint negativeTask4ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new ExactTrustRequirementValue(6));
+		TrustRequirementConstraint negativeTask4ConstraintEfficient = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-20,-25));
 		negativeTask4Efficient.setConstraint(negativeTask4ConstraintEfficient);
 		
 		efficient.addTask(positiveTask1Efficient);
@@ -167,22 +167,22 @@ public class RCISPaper {
 		
 		Task positiveTask1Smooth = new PositiveTask("Positive Task 1");
 		positiveTask1Smooth.setIteration(5);
-		TrustRequirementConstraint positiveTask1ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10, 10));
+		TrustRequirementConstraint positiveTask1ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10,20));
 		positiveTask1Smooth.setConstraint(positiveTask1ConstraintSmooth);
 		
-		Task negativeTask2Smooth = new PositiveTask("Negative Task 2");
+		Task negativeTask2Smooth = new NegativeTask("Negative Task 2");
 		negativeTask2Smooth.setIteration(1);
-		TrustRequirementConstraint negativeTask2ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-5));
+		TrustRequirementConstraint negativeTask2ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-5,-10));
 		negativeTask2Smooth.setConstraint(negativeTask2ConstraintSmooth);
 		
 		Task positiveTask3Smooth = new PositiveTask("Positive Task 3");
 		positiveTask3Smooth.setIteration(5);
-		TrustRequirementConstraint positiveTask3ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(10));
+		TrustRequirementConstraint positiveTask3ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Greater(), new PercentageScoreValue(5,10));
 		positiveTask3Smooth.setConstraint(positiveTask3ConstraintSmooth);
 		
-		Task negativeTask4Smooth = new PositiveTask("Negative Task 4");
+		Task negativeTask4Smooth = new NegativeTask("Negative Task 4");
 		negativeTask4Smooth.setIteration(6);
-		TrustRequirementConstraint negativeTask4ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-5));
+		TrustRequirementConstraint negativeTask4ConstraintSmooth = new TrustRequirementConstraint(scoreElement, new Lower(), new PercentageScoreValue(-10,-15));
 		negativeTask4Smooth.setConstraint(negativeTask4ConstraintSmooth);
 		
 		smooth.addTask(positiveTask1Smooth);
