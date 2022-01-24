@@ -75,6 +75,13 @@ public abstract class Task {
 		return this.parent;
 	}
 
+	public void addReason(Action p) {
+		Reason current = new Reason();
+		current.setAction(p);
+		
+		this.reasons.add(current);
+	}
+	
 	public List<Reason> getReasons() {
 		return this.reasons;
 	}

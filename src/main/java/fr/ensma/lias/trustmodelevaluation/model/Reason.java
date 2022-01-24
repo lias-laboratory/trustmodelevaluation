@@ -9,6 +9,14 @@ public class Reason {
 	
 	protected int value;
 
+	public Reason() {
+		
+	}
+	
+	public Reason(Action p) {
+		this.action = p;
+	}
+	
 	public Action getAction() {
 		return action;
 	}

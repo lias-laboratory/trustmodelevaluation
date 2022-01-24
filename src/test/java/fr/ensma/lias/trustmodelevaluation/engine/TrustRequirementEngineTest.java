@@ -3,8 +3,6 @@ package fr.ensma.lias.trustmodelevaluation.engine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import fr.ensma.lias.trustmodelevaluation.engine.Scenario;
-import fr.ensma.lias.trustmodelevaluation.engine.TrustRequirementEngine;
 import fr.ensma.lias.trustmodelevaluation.model.AbstractTask;
 import fr.ensma.lias.trustmodelevaluation.model.Decomposition;
 import fr.ensma.lias.trustmodelevaluation.model.Equal;
