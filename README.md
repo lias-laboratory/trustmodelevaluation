@@ -133,6 +133,10 @@ BayesienNetworkComputationalModel: 42
 EigenTrustNetworkComputationalModel: 18
 ```
 
+## Software licence agreement
+
+Details the license agreement of TME: [LICENCE](LICENCE)
+
 ## Historic Contributors
 
 * [Chayma SELLAMI](https://www.lias-lab.fr/fr/members/chaymasellami/) (O°Code and LIAS/ISAE-ENSMA)
