@@ -137,14 +137,14 @@ EigenTrustNetworkComputationalModel: 18
 
 Details the license agreement of TME: [LICENCE](LICENCE)
 
-## Historic Contributors
+## Historic Contributors (core developers first followed by alphabetical order)
 
-* [Chayma SELLAMI](https://www.lias-lab.fr/fr/members/chaymasellami/) (O°Code and LIAS/ISAE-ENSMA)
+* [Chayma SELLAMI (core developer](https://www.lias-lab.fr/fr/members/chaymasellami/) (O°Code and LIAS/ISAE-ENSMA)
 * [Mickael BARON](https://www.lias-lab.fr/fr/members/mickaelbaron/) (LIAS/ISAE-ENSMA)
-* [Stéphane JEAN](https://www.lias-lab.fr/fr/members/stephanejean/) (LIAS/ISAE-ENSMA)
 * Mournir BECHCHI (O°Code)
-* [Allel HADJALI](https://www.lias-lab.fr/fr/members/allelhadjali/) (LIAS/ISAE-ENSMA)
 * Dominique CHABOT (O°Code)
+* [Allel HADJALI](https://www.lias-lab.fr/fr/members/allelhadjali/) (LIAS/ISAE-ENSMA)
+* [Stéphane JEAN](https://www.lias-lab.fr/fr/members/stephanejean/) (LIAS/ISAE-ENSMA)
 
 ## Code Analysis
 
