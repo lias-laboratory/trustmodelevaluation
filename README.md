@@ -135,7 +135,7 @@ EigenTrustNetworkComputationalModel: 18
 
 ## Software licence agreement
 
-Details the license agreement of TME: [LICENCE](LICENCE)
+Details the license agreement of TME: [LICENSE](LICENSE)
 
 ## Historic Contributors (core developers first followed by alphabetical order)
 
