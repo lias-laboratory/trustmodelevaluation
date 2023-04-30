@@ -139,12 +139,12 @@ Details the license agreement of TME: [LICENSE](LICENSE)
 
 ## Historic Contributors (core developers first followed by alphabetical order)
 
-* [Chayma SELLAMI (core developer](https://www.lias-lab.fr/fr/members/chaymasellami/) (O°Code and LIAS/ISAE-ENSMA)
-* [Mickael BARON](https://www.lias-lab.fr/fr/members/mickaelbaron/) (LIAS/ISAE-ENSMA)
+* [Chayma SELLAMI (core developer](https://www.lias-lab.fr/members/chaymasellami/) (O°Code and LIAS/ISAE-ENSMA)
+* [Mickael BARON](https://www.lias-lab.fr/members/mickaelbaron/) (LIAS/ISAE-ENSMA)
 * Mournir BECHCHI (O°Code)
 * Dominique CHABOT (O°Code)
-* [Allel HADJALI](https://www.lias-lab.fr/fr/members/allelhadjali/) (LIAS/ISAE-ENSMA)
-* [Stéphane JEAN](https://www.lias-lab.fr/fr/members/stephanejean/) (LIAS/ISAE-ENSMA)
+* [Allel HADJALI](https://www.lias-lab.fr/members/allelhadjali/) (LIAS/ISAE-ENSMA)
+* [Stéphane JEAN](https://www.lias-lab.fr/members/stephanejean/) (LIAS/ISAE-ENSMA)
 
 ## Code Analysis
 
