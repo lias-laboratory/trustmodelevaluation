@@ -133,7 +133,7 @@ BayesienNetworkComputationalModel: 42
 EigenTrustNetworkComputationalModel: 18
 ```
 
-## Software licence agreement
+## Software license agreement
 
 Details the license agreement of TME: [LICENSE](LICENSE)
 
